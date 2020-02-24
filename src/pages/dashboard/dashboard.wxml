@@ -1,0 +1,34 @@
+<image src="{{bg}}" class="bg"></image>
+<view class="container">
+  <!-- <view class="userinfo">
+    <block wx:if="{{hasUserInfo && canIUse}}">
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">您好！{{userInfo.nickName}}</text>
+    </block>
+  </view> -->
+  <view class="content">
+    <view class="report" bindtap="report">
+       <image src="{{todayIcon}}" class="todayIcon"></image>
+       <view>
+        <view class="title">点击上报</view>
+        <view class="explain">早发现、早隔离、早防控</view>
+       </view>
+    </view>
+    <view class="time">{{time}}<text style="margin-left:10rpx;">{{week}}</text></view>
+    <!-- <image src="{{repotrBg}}" class="report-bg" bindtap="report"></image> -->
+    <!-- <image src="{{bottomBg}}" class="bottom-bg"></image> -->
+    <!-- <view class="btn-content flex-center">
+      <button class="primary" bindtap="info">我的资料</button>
+    </view> -->
+    <!-- <view class="flex-center report-content">
+      <view class="flex-center flex-direction">
+        <image src="{{todayIcon}}"></image>
+        <button class="primary" >{{buttonText}}</button>
+      </view> -->
+      <!-- <view class="flex-center flex-direction">
+        <image src="{{viewIcon}}"></image>
+        <button class="primary" bindtap="report">查看上报记录</button>
+      </view>
+    </view> -->
+  </view>
+</view>

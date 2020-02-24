@@ -1,0 +1,8 @@
+<picker class="pickerSconed" mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
+  <view class="picker">
+    <text class="{{return_district_path?'':'place-holder'}}" wx:if="{{show}}">{{citytext}}</text>
+    <text wx:else> {{multiArray[0][multiIndex[0]]}}，{{multiArray[1][multiIndex[1]]}}</text>
+  </view>
+</picker>
+<!-- <view>{{return_district_path}}</view>
+<view>{{current_district_path}}</view> -->

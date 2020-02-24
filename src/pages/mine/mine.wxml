@@ -1,0 +1,27 @@
+<view class="hint" wx:if="{{is_registered==0}}">请先绑定个人信息</view>
+<view wx:elif="{{is_registered==1||is_registered==2}}">
+  <image src="../../images/mine-bg.png" class="info-bg"></image>
+  <view class="info">
+    <view class="section flex">
+      <view class="section_title">{{type_corpname}}:</view>
+      <input type="text" disabled value="{{corpname}}"></input>
+    </view>
+    <view class="section flex">
+      <view class="section_title">{{type_username}}:</view>
+      <input type="text" disabled value="{{userid}}"></input>
+    </view>
+    <view class="section flex">
+      <view class="section_title" nam="login_name">
+        姓名:</view>
+      <input type="text" disabled value="{{name}}"></input>
+    </view>
+    <view class="section flex">
+      <view class="section_title" nam="login_name">
+        手机号:</view>
+      <input type="text" disabled value="{{phone_num}}"></input>
+    </view>
+    <view class="flex-center">
+      <button class="primary" size="mini" formType="submit" bindtap="unbound">解除绑定</button>
+    </view>
+  </view>
+</view>

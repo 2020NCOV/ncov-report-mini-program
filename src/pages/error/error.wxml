@@ -1,0 +1,4 @@
+<view class="flex-center">
+<image class="error" src="{{error}}"></image>
+<text>{{text}}</text>
+</view>

@@ -1,0 +1,158 @@
+<view class="reportForm">
+  <!--default显示学生字段-->
+  <block wx:if="{{template_code=='default'}}">
+    <view>各位同学：</view>
+    <view class="hint">
+      目前全国多地区发现新型冠状病毒感染病例，国家卫健委将其纳入乙类传染病并按甲类防控。为避免病毒在校内传播，请<text>每天</text>如实填写以下信息，并及时与您的辅导员联系。学校相关消毒预防保障工作已启动，同时会持续关注疫情进展并和大家沟通。如需帮助，可联系辅导员。祝各位同学及家人身体健康！</view>
+  </block>
+  <!--显示公司字段-->
+  <block wx:else>
+    <view>各位同事:</view>
+    <view class="hint">目前全国多地区发现新型冠状病毒感染病例，国家卫健委将其纳入乙类传染病并按甲类防控。为避免病毒传播，请
+      <text>每天</text>如实填写以下信息，并及时与您的部门主管联系。祝各位同事及家人身体健康！</view>
+  </block>
+  <view wx:if="{{time}}" style="margin-top:20rpx;">最新上报时间：{{time}}</view>
+  <form bindsubmit="formSubmit" bindreset="formReset" class="form">
+    <!--default显示学生字段-->
+    <block wx:if="{{template_code=='default'}}">
+      <view class="section" style="margin-top:20px;">
+        <view class="section_title">
+          <text class="required">*</text>目前是否已返校：</view>
+        <radio-group class="radio-group" bindchange="radioChange" name="is_return_school">
+          <label class="radio" wx:for="{{returnSchool}}">
+            <radio color='#42811c' value="{{item.id}}" checked="{{item.checked}}" />{{item.value}}
+          </label>
+        </radio-group>
+      </view>
+      <block wx:if="{{is_return_school==1}}">
+        <view class="section">
+          <view class="section_title">
+            <text class="required">*</text>返校时间：</view>
+          <picker mode="date" value="{{date}}" bindchange="bindDateChange" name="return_time">
+            <view class="picker">
+              <text class="place-holder">{{returnText}}</text> {{date}}
+            </view>
+          </picker>
+        </view>
+        <view class="section">
+          <view class="section_title">
+            <text class="required">*</text>宿舍号:</view>
+          <input type="text" maxlength="30" placeholder="请填写宿舍号" name="return_dorm_num" placeholder-class="place-holder" value="{{returnData.return_dorm_num}}"></input>
+        </view>
+        <view class="section">
+          <view class="section_title">
+            <text class="required">*</text>从哪个城市返回:</view>
+          <industry-class class="pickerSconed" bind:myEvent="getReturnData" return_district_path='{{return_district_path}}'></industry-class>
+        </view>
+        <view class="section">
+          <view class="section_title">
+            <text class="required">*</text>返校乘坐的交通工具、具体时间、车次信息:</view>
+          <input type="text" maxlength="50" placeholder="请填写返校过程的交通信息" name="return_traffic_info" placeholder-class="place-holder" value="{{returnData.return_traffic_info}}"></input>
+        </view>
+      </block>
+    </block>
+    <!--显示公司字段-->
+    <block wx:else>
+      <view class="section" style="margin-top:20px;">
+        <view class="section_title">
+          <text class="required">*</text>目前是否已返回公司所在地:</view>
+        <radio-group class="radio-group" bindchange="radioChange" name="is_return_school">
+          <label class="radio" wx:for="{{returnSchool}}">
+            <radio color='#42811c' value="{{item.id}}" checked="{{item.checked}}" />{{item.value}}
+          </label>
+        </radio-group>
+      </view>
+      <block wx:if="{{is_return_school==1}}">
+        <view class="section">
+          <view class="section_title">
+            <text class="required">*</text>返回公司所在地日期：</view>
+          <picker mode="date" value="{{return_date}}" bindchange="bindReturnDateChange" name="return_date">
+            <view class="picker">
+              <text class="place-holder">{{returnText}}</text> {{return_date}}
+            </view>
+          </picker>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="section">
+          <view class="section_title">
+            <text class="required">*</text>计划返回公司所在地日期：</view>
+          <picker mode="date" value="{{plan_date}}" bindchange="bindPlanDateChange" name="plan_date">
+            <view class="picker">
+              <text class="place-holder">{{planText}}</text> {{plan_date}}
+            </view>
+          </picker>
+        </view>
+      </block>
+    </block>
+    <view class="section">
+      <view class="section_title">
+        <text class="required">*</text>目前所在地区:</view>
+      <picker class="pickerSconed" mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
+        <view class="picker">
+          <text class="{{current_district_path?'':'place-holder'}}" wx:if="{{show}}">{{currentCityText}}</text>
+          <text wx:else> {{multiArray[0][multiIndex[0]]}}，{{multiArray[1][multiIndex[1]]}}</text>
+        </view>
+      </picker>
+    </view>
+    <view class="section">
+      <view class="section_title">
+        <text class="required">*</text>目前本人身体情况:</view>
+      <radio-group class="radio-group" bindchange="healthChange" name="current_health_value">
+        <label class="radio" wx:for="{{healthOptions}}">
+          <radio color='#42811c' value="{{item.id}}" checked="{{item.checked}}" />{{item.name}}
+        </label>
+      </radio-group>
+    </view>
+    <view class="section">
+      <view class="section_title">
+        <text class="required">*</text>14天内是否接触过以下传染途径:</view>
+      <radio-group class="radio-group" name="current_contagion_risk_value">
+        <label class="radio" wx:for="{{pathwayOptions}}">
+          <radio color='#42811c' value="{{item.id}}" checked="{{item.checked}}" />{{item.name}}
+        </label>
+      </radio-group>
+    </view>
+    <view class="section">
+      <view class="section_title">
+        <text class="required">*</text>你现在的心理状况:</view>
+      <radio-group class="radio-group" bindchange="psyStatusChange" name="psy_status">
+        <label class="radio" wx:for="{{psyStatusOptions}}">
+          <radio color='#42811c' value="{{item.id}}" checked="{{item.checked}}" />{{item.name}}
+        </label>
+      </radio-group>
+    </view>
+    <view class="section">
+      <view class="section_title">
+        <text class="required">*</text>你对心理咨询的需求 :</view>
+      <radio-group class="radio-group" bindchange="demandChange" name="psy_demand">
+        <label class="radio" wx:for="{{demandOptions}}">
+          <radio color='#42811c' value="{{item.id}}" checked="{{item.checked}}" />{{item.name}}
+        </label>
+      </radio-group>
+    </view>
+    <view class="section">
+      <view class="section_title">
+        <text class="required">*</text>你需要获得哪方面的心理调适知识 :</view>
+      <radio-group class="radio-group" bindchange="knowledgeChange" name="psy_knowledge">
+        <label class="radio" wx:for="{{knowledgeOptions}}">
+          <radio color='#42811c' value="{{item.id}}" checked="{{item.checked}}" />{{item.name}}
+        </label>
+      </radio-group>
+    </view>
+    <view class="section">
+      <view class="section_title">
+        <text class="required">*</text>今天体温测量数据(摄氏度):</view>
+      <input type="text" maxlength="4" placeholder="请填写体温" name="current_temperature" placeholder-class="place-holder"></input>
+    </view>
+    <view class="section">
+      <view class="section_title">你需要的其他帮助或想说的:</view>
+      <textarea bindblur="bindTextAreaBlur" auto-height placeholder="请填写其它需要说明的" name="remarks" placeholder-class="place-holder" maxlength="100" value="{{returnData.remarks}}" />
+    </view>
+    
+    <view class="flex-center btn-content">
+      <button class="button primary" formType="submit">提 交</button>
+     
+    </view>
+  </form>
+</view>

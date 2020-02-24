@@ -1,0 +1,80 @@
+<view class="info">
+  <view class="hint">请先绑定/注册个人信息</view>
+  <!-- <view class="section flex">
+    <view class="section_title" nam="login_name">
+      <text class="required">*</text>企业标识码:</view>
+    <input type="text" maxlength="20" placeholder="请输入企业标识码" disabled value="{{corpid}}"></input>
+  </view> -->
+  <view class="section flex">
+    <view class="section_title">
+      <text class="required">*</text>{{type_corpname}}:</view>
+    <input type="text" disabled value="{{corpname}}"></input>
+  </view>
+  <view class="section flex">
+    <view class="section_title">
+      <text class="required">*</text>{{type_username}}:</view>
+    <input type="text" maxlength="20" placeholder="请输入{{type_username}}" bindinput='useridInput' disabled="{{search}}"></input>
+  </view>
+  <view class="flex-center btn-content" hidden="{{sureBtn}}">
+    <button class="button primary" bindtap="sure">查 询</button>
+  </view>
+  <form bindsubmit="formSubmit" bindreset="formReset" class="form" hidden="{{formIsShow}}">
+    <view class="section flex" wx:if="{{is_exist==1}}">
+      <view class="section_title" nam="login_name">
+        <text class="required">*</text>密码:</view>
+      <input type="password" maxlength="20" placeholder="请填写密码" placeholder-class="place-holder" name="password"></input>
+    </view>
+    <block wx:else>
+      <view class="section">
+        <view class="section_title">
+          <text class="required">*</text>姓名:</view>
+        <input type="text" maxlength="20" placeholder="请填写姓名" name="name" placeholder-class="place-holder"></input>
+      </view>
+      <view class="section">
+        <view class="section_title">
+          <text class="required">*</text>手机号码:</view>
+        <input type="text" maxlength="11" placeholder="请填写手机号码" name="phone_num" placeholder-class="place-holder"></input>
+      </view>
+    </block>
+    <!-- <view class="section">
+      <view class="section_title">
+        <text class="required">*</text>攻读学位:</view>
+      <picker bindchange="degreeChange" value="{{degree}}" range="{{IDoptions}}" range-key="name" name="degree_value" data-id='{{IDoptions[degree].id}}'>
+        <view class="picker">
+          <text class="place-holder">{{degreeText}}</text> {{IDoptions[degree].name}}
+        </view>
+      </picker>
+    </view>
+    <!-- <view class="section">
+      <view class="section_title">
+        <text class="required">*</text>性别:</view>
+      <picker bindchange="genderChange" value="{{index}}" range="{{genderOptions}}" range-key="name" name="gender_value">
+        <view class="picker">
+          <text class="place-holder">{{genderText}}</text> {{genderOptions[index].name}}
+        </view>
+      </picker>
+    </view> 
+    <view class="section">
+      <view class="section_title">
+        <text class="required">*</text>所属年级:</view>
+      <picker bindchange="classChange" value="{{class}}" range="{{classOptions}}" range-key="name" name="grade_value" data-id='{{classOptions[class].id}}'>
+        <view class="picker">
+          <text class="place-holder">{{classText}}</text> {{classOptions[class].name}}
+        </view>
+      </picker>
+    </view> -->
+    <!-- <view class="section">
+    <view class="section_title">
+      <text class="required">*</text>组织机构:</view> -->
+    <!-- <picker bindchange="treeChange" value="{{tree}}" range="{{treeList}}" range-key="name" name="department_id" data-id='{{treeList[tree].id}}'>
+      <view class="picker">
+        <text class="place-holder">{{treeText}}</text> {{treeList[tree].name}}
+      </view>
+    </picker> -->
+    <!-- <department class="departmentPicker" bind:myEvent="getDepartmentId"></department> -->
+    <!-- </view> -->
+    <view class="flex-center btn-content">
+      <button class="button primary" formType="submit">确 认</button>
+    </view>
+  </form>
+</view>
