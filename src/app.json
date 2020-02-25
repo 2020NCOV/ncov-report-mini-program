@@ -9,7 +9,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#13beec",
-    "navigationBarTitleText": "疫情防控系统v1.3",
+    "navigationBarTitleText": "疫情防控系统v1.3.1",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {

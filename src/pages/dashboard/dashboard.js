@@ -17,16 +17,56 @@ Page({
     is_registered: ''
   },
   onLoad: function(options) {
+    const updateManager = wx.getUpdateManager()
+
+    updateManager.onCheckForUpdate(function (res) {
+      // 请求完新版本信息的回调
+      console.log(res.hasUpdate)
+    })
+
+    updateManager.onUpdateReady(function () {
+      wx.showModal({
+        title: '更新提示',
+        content: '新版本已经准备好，是否重启应用？',
+        success(res) {
+          if (res.confirm) {
+            // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+            updateManager.applyUpdate()
+          }
+        }
+      })
+    })
+
+    updateManager.onUpdateFailed(function () {
+      // 新版本下载失败
+    })
+    
+
     console.log('onload最初全局is_registered' + app.globalData.is_registered)
     var that = this;
-    //企业标识
-    let corpid = '100000001'
+    let corpid = "";
     if (options.scene) {
       corpid = decodeURIComponent(options.scene);
+      wx.setStorage({
+        key: "corpid",
+        data: corpid
+      })
+    } else {
+      try {
+        corpid = wx.getStorageSync('corpid');
+        if (corpid == '') {
+          console.log("if");
+          corpid = "100000001";
+        }
+      } catch (e) {
+        console.log("catch");
+        corpid = "100000001";
+      }
     }
-    // that.setData({
-    //   corpid: corpid,
-    // })
+
+    console.log(corpid);
+
+    
     app.globalData.corpid = corpid
     //  获取当前时间和周几
     var date = common.formatTime(new Date());
