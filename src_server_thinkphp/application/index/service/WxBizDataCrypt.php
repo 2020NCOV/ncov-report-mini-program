@@ -1,9 +1,18 @@
 <?php
+// +----------------------------------------------------------------------
+// | Copyright (c) 2020 2020NCOV All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: zhangqixun <zhangqx@ss.pku.edu.cn>
+// +----------------------------------------------------------------------
+
 namespace app\index\service;
 
 use think\Request;
 use think\Db;
 use think\Session;
+
 class WxBizDataCrypt {
 
    	/**
@@ -23,20 +32,18 @@ class WxBizDataCrypt {
         $this->appid = $appid;
     }
 
-
     /**
      * @param $encryptedData
      * @param $iv
      * @param $data
      * @return mixed
      */
-    public function decryptData( $encryptedData, $iv, &$data )
+    public function decryptData($encryptedData, $iv, &$data)
     {
         if (strlen($this->sessionKey) != 24) {
             return self::$IllegalAesKey;
         }
         $aesKey=base64_decode($this->sessionKey);
-
 
         if (strlen($iv) != 24) {
             return self::$IllegalIv;
@@ -46,7 +53,6 @@ class WxBizDataCrypt {
         $aesCipher=base64_decode($encryptedData);
 
         $result=openssl_decrypt( $aesCipher, "AES-128-CBC", $aesKey, 1, $aesIV);
-
 
         $dataObj=json_decode( $result );
         if( $dataObj  == NULL )
@@ -60,5 +66,5 @@ class WxBizDataCrypt {
         $data = $result;
         return self::$OK;
     }
-   
+
 }
