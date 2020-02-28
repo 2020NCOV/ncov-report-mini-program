@@ -1,4 +1,12 @@
 <?php
+// +----------------------------------------------------------------------
+// | Copyright (c) 2020 2020NCOV All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: zhangqixun <zhangqx@ss.pku.edu.cn>
+// +----------------------------------------------------------------------
+
 namespace app\index\controller;
 use think\Request;
 use think\Db;
@@ -13,11 +21,10 @@ class Notify extends Controller{
         //重置session
         Session::clear();
         return  $this->fetch();
-    
     }
   
-  
-    public function getAccessToken(){
+    public function getAccessToken()
+    {
         $appid  = Config::get('wechat_appid');
         $secret = Config::get('wechat_secret');
         $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$secret;
@@ -30,33 +37,32 @@ class Notify extends Controller{
   
     public function sendmsg()
     {
-            
-            $access_token = $this->getAccessToken();
-            $url = "https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=" . $access_token;
-            
-            //接收者（用户）的 openid
-            $data['touser'] = 'axyABtv3vllZqVqTKdS3FTYpoMePOplgPuVccRno6HQ';
-            //所需下发的订阅模板id
-            $data['template_id'] = 'axyABtv3vllZqVqTKdS3FTYpoMePOplgPuVccRno6HQ';
-            //点击模板卡片后的跳转页面，仅限本小程序内的页面。支持带参数,（示例index?foo=bar）。该字段不填则模板无跳转。
-            //$data['page'] = '';
-      
-            $data['data'] = '430';
+        $access_token = $this->getAccessToken();
+        $url = "https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=" . $access_token;
+        
+        //接收者（用户）的 openid
+        $data['touser'] = 'axyABtv3vllZqVqTKdS3FTYpoMePOplgPuVccRno6HQ';
+        //所需下发的订阅模板id
+        $data['template_id'] = 'axyABtv3vllZqVqTKdS3FTYpoMePOplgPuVccRno6HQ';
+        //点击模板卡片后的跳转页面，仅限本小程序内的页面。支持带参数,（示例index?foo=bar）。该字段不填则模板无跳转。
+        //$data['page'] = '';
+    
+        $data['data'] = '430';
 
-      
-            //http post
-            $res = $this->postUrl($url, json_encode($data));
-            //var_dump($res);
-            $path = 'h' . $id . '.jpg';
-            file_put_contents($path, $res);
-            $return['status_code'] = 2000;
-            $return['msg'] = 'ok';
-            $return['img'] =  "/".$path;
-            echo "<img src='".$return['img']."' />";exit;
-            //echo json_encode($return);exit;
-     }
+    
+        //http post
+        $res = $this->postUrl($url, json_encode($data));
+        //var_dump($res);
+        $path = 'h' . $id . '.jpg';
+        file_put_contents($path, $res);
+        $return['status_code'] = 2000;
+        $return['msg'] = 'ok';
+        $return['img'] =  "/".$path;
+        echo "<img src='".$return['img']."' />";exit;
+        //echo json_encode($return);exit;
+    }
   
-     // 实现Post请求
+    // 实现Post请求
     public function postUrl($url,$data){
         $curl=curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
