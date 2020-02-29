@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "今日防控信息汇报",
-  "usingComponents": {
-    "department": "../../components/department/department"
-  }
-}
