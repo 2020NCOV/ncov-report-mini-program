@@ -1,0 +1,54 @@
+.info {
+  width: 650rpx;
+  background: #fff;
+  box-shadow: 0 0 15rpx rgba(0, 0, 0, 0.3);
+  z-index: 2;
+  position: absolute;
+  margin-top: 300rpx;
+  margin-left: -325rpx;
+  left: 50%;
+  box-sizing: border-box;
+  padding: 60rpx 20rpx;
+  border-radius: 10rpx;
+}
+
+.info-bg {
+  height: 420rpx;
+  width: 100%;
+  z-index: 1;
+  position: absolute;
+}
+
+.section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.section_title {
+  width: 160rpx;
+  text-align: right;
+  margin-right: 20rpx;
+}
+
+.info .flex-center {
+  margin-top: 60rpx;
+}
+
+.hint {
+  text-align: center;
+  color: #13beec;
+  margin-top: 300rpx;
+}
+input{
+  width: 70%;
+}
+@media screen and (max-width: 320px) {
+  .section_title {
+    width: 190rpx;
+  }
+
+  .info picker, .info input {
+    width: 63%;
+  }
+}
