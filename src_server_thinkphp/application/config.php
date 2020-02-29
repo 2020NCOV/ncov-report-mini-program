@@ -19,12 +19,10 @@ return [
     // 应用Trace
     'app_trace'              => false,
   
-
     //替换自己小程序相应的信息
-    'wechat_appid'         => '小程序ID',
-    'wechat_secret'		=> '秘钥',
+    'wechat_appid'           => getenv('WECHAT_APPID') ? getenv('WECHAT_APPID') : '小程序ID',
+    'wechat_secret'		     => getenv('WECHAT_SECRET') ? getenv('WECHAT_SECRET') : '秘钥',
   
-     
     // 应用模式状态
     'app_status'             => '',
     // 是否支持多模块
