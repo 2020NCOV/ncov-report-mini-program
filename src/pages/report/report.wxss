@@ -1,0 +1,107 @@
+.reportForm {
+  padding: 40rpx;
+}
+
+/* .reportForm view:first-child{
+  margin-bottom: 10rpx;
+} */
+
+.reportForm .hint {
+  margin: 15rpx 0;
+}
+
+.reportForm textarea {
+  width: auto;
+}
+
+.section {
+  margin-bottom: 40rpx;
+}
+
+.section_title {
+  margin-bottom: 10rpx;
+  color: #13beec;
+  font-weight: bold;
+}
+
+.btn-content {
+  margin-top: 50rpx;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.radio {
+  margin-bottom: 5rpx;
+}
+
+radio .wx-radio-input {
+  width: 25rpx;
+  height: 25rpx;
+}
+
+button {
+  width: auto !important;
+}
+
+.hint {
+  text-indent: 2em;
+}
+
+.hint text {
+  font-weight: bold;
+}
+
+.text-box {
+  width: 750rpx;
+  padding: 20rpx 0;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 150rpx;
+  max-height: 240rpx;
+  background: rgb(172, 253, 95);
+}
+
+.text-box view {
+  display: block;
+  visibility: hidden;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.text-box .weui-textarea {
+  width: 600rpx;
+  height: 100%;
+  position: absolute;
+  left: 75rpx;
+  top: 0rpx;
+  overflow-y: hidden;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+/* .info{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+} */
+.info,.info .flex {
+  margin-bottom: 15rpx;
+}
+.info .flex view:first-child{
+  width: 130rpx;
+  text-align: right;
+  margin-right: 10rpx;
+}

@@ -1,0 +1,36 @@
+{
+  "pages": [
+    "pages/dashboard/dashboard",
+    "pages/info/info",
+    "pages/report/report",
+    "pages/error/error",
+    "pages/mine/mine"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#13beec",
+    "navigationBarTitleText": "疫情防控系统v1.6",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#bfbfbf",
+    "selectedColor": "#13beec",
+    "list": [
+      {
+        "pagePath": "pages/dashboard/dashboard",
+        "text": "每日上报",
+        "iconPath": "images/report.png",
+        "selectedIconPath": "images/selectedReport.png"
+      },
+      
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我 的",
+        "iconPath": "images/mine.png",
+        "selectedIconPath": "images/selectedMine.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
