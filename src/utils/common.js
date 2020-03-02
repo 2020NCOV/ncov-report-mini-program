@@ -51,7 +51,7 @@ function dateLater(dates, later) {
 //正则验证
 //验证手机号
 const ISPHONE = function (_phone) {
-  let reg = /^[1][3, 4, 5, 6, 7, 8][0-9]{9}$/
+  let reg = /^[1][3, 4, 5, 6, 7, 8, 9][0-9]{9}$/
   if (reg.test(_phone)) {
     return true;
   } else {
