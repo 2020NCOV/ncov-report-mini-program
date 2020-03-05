@@ -1,49 +1,26 @@
 import common from '../../utils/common.js'
 import request from '../../utils/request.js'
-//获取应用实例
+//获取应用实例 
 const app = getApp()
+const LOG = require('../../utils/log.js')
+const AUTH = require('../../utils/auth.js')
+const TOOLS = require('../../utils/tools.js')
 
 Page({
   data: {
     userInfo: '',
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    // todayIcon: '../../images/bussiness-man.png',
-    // viewIcon: '../../images/icon_calendar.png',
-    bg: '../../images/bg.jpg',
+    bg: '../../images/bg.png',
     repotrBg: '../../images/report-bg.png',
     buttonText: '开始今日上报',
     corpid: '',
-    is_registered: ''
   },
   onLoad: function(options) {
-    const updateManager = wx.getUpdateManager()
-
-    updateManager.onCheckForUpdate(function(res) {
-      // 请求完新版本信息的回调
-      console.log(res.hasUpdate)
-    })
-
-    updateManager.onUpdateReady(function() {
-      wx.showModal({
-        title: '更新提示',
-        content: '新版本已经准备好，是否重启应用？',
-        success(res) {
-          if (res.confirm) {
-            // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-            updateManager.applyUpdate()
-          }
-        }
-      })
-    })
-
-    updateManager.onUpdateFailed(function() {
-      // 新版本下载失败
-    })
-
-    console.log('onload最初全局is_registered' + app.globalData.is_registered)
+    LOG.info('dashboard onLoad')
+    console.log('dashboard onLoad'); 
     var that = this;
-    let corpid = "";
+    let corpid = "100000001";
     if (options.scene) {
       corpid = decodeURIComponent(options.scene);
       wx.setStorage({
@@ -54,20 +31,30 @@ Page({
       try {
         corpid = wx.getStorageSync('corpid');
         if (corpid == '') {
-          console.log("if");
           corpid = "100000001";
         }
       } catch (e) {
-        console.log("catch");
         corpid = "100000001";
       }
     }
-
-    console.log(corpid);
-    // that.setData({
-    //   corpid: corpid,
-    // })
+    console.log('dashboard onLoad corpid:'+ corpid);
+    LOG.info('dashboard onLoad corpid:' +corpid);
     app.globalData.corpid = corpid
+  },
+
+  onShow: function() {
+    var that = this;
+    console.log('dashboard onShow');
+    LOG.info('dashboard onShow') // 日志会和当前打开的页面关联，建议在页面的onHide、onShow等生命周期里面打
+    console.log('dashboard  onShow开始全局 is_registered:' + app.globalData.is_registered);
+    LOG.info('dashboard onShow开始全局 is_registered:' + app.globalData.is_registered)
+    console.log('dashboard  onShow开始全局 uid:' + app.globalData.uid);
+    LOG.info('dashboard onShow开始全局 uid:' + app.globalData.uid)
+    console.log('dashboard  onShow开始全局 token:' + app.globalData.token);
+    LOG.info('dashboard onShow开始全局 token:' + app.globalData.token)
+    console.log('dashboard  onShow开始全局 corpid:' + app.globalData.corpid);
+    LOG.info('dashboard onShow开始全局 corpid:' + app.globalData.corpid)    
+    TOOLS.checkUpdate();//每次打开这个页面，自动检测是否有更新
     //  获取当前时间和周几
     var date = common.formatTime(new Date());
     let time = common.getDates(7, date);
@@ -79,88 +66,90 @@ Page({
         })
       }
     }
+    
+    //获取用户code值
+    wx.login({
+      success: res => {
+        var data = {
+          code: res.code,
+        }
+        request._post('/login/getcode', data, res => {
+          //每次根据用户的code获取用户的uid和openid
+          if (res.data.errcode == 0) {
+            app.globalData.token = res.data.token;
+            app.globalData.uid = res.data.uid; //用户在微信小程序信息库中的编码id
+            console.log('dashboard onShow /login/getcode 返回的 uid:' + res.data.uid);
 
-  },
-  onShow: function() {
-    var that = this;
-    console.log('onShow最初全局is_registered' + app.globalData.is_registered)
-    // 判断是否绑定信息
-    app.userInfoReadyCallback = res => {
-      var checkList = {
-        code: app.globalData.code,
-        corpid: app.globalData.corpid,
-        uid: app.globalData.uid,
-        token: app.globalData.token
-      }
-      // 判断当前用户是否注册
-      request._post('/login/check_is_registered', checkList, res => {
-        console.log(res)
-        if (res.data.errcode == 0) {
-          app.globalData.is_registered = res.data.is_registered
-          console.log('check_is_registered接口回传的' + app.globalData.is_registered)
-        }
-      }, err => {
-        console.log(err)
-      })
-      // 检查用户扫描二维码是否为之前绑定公司
-      var data = {
-        uid: app.globalData.uid,
-        token: app.globalData.token,
-        corpid: app.globalData.corpid
-      }
-      request._post('/info/getmyinfo', data, res => {
-        console.log(res)
-        // res.data.errcode = 1009;
-        if (res.data.errcode == 1009) {
-          app.globalData.corpid = res.data.corp_code;
-          console.log('上报页面的corpid' + app.globalData.corpid)
-          wx.showModal({
-            title: '',
-            content: res.data.msg,
-            success(res) {
-              if (res.confirm) {
-                common.SWITCHTAB('../mine/mine')
-              }
+            var data = {
+              uid: app.globalData.uid,
+              token: app.globalData.token,
+              corpid: app.globalData.corpid
             }
-          });
-        }
-      }, err => {
-        console.log(err)
-      })
-      // var checkBind = {
-      //   uid: app.globalData.uid,
-      //   token: app.globalData.token
-      // }
-      // request._post('/info/getbindinfo', checkBind, res => {
-      //   console.log(res.data.corp_code)
-      //   if (res.data.is_bind == 1) {
-      //     app.globalData.corpid = res.data.corp_code
-      //     console.log('getbindinfo接口回传的' + app.globalData.corpid)
-      //   }
-      // }, err => {
-      //   console.log(err)
-      // })
-    }
-    // }
-    // console.log(that.data.is_registered)
+            request._post('/info/getmyinfo', data, res => {
+              //获取用户的绑定信息，如果已绑定其他企业，则将全局变量保存为已绑定的数据
+           
+              if (res.data.errcode == 1099 ) {
+                app.globalData.corpid = res.data.corp_code;
+              } 
+              if (res.data.errcode == 1099 || res.data.errcode == 0) {
+                app.globalData.template_code = res.data.bind_corp_template_code;
+              } 
+             
+              
+              AUTH.checkUser()
+
+              console.log('dashboard  onShow结束后全局 is_registered:' + app.globalData.is_registered);
+              LOG.info('dashboard onShow结束后全局 is_registered:' + app.globalData.is_registered)
+              console.log('dashboard  onShow结束后全局 uid:' + app.globalData.uid);
+              LOG.info('dashboard onShow结束后全局 uid:' + app.globalData.uid)
+              console.log('dashboard  onShow结束后全局 token:' + app.globalData.token);
+              LOG.info('dashboard onShow结束后全局 token:' + app.globalData.token)
+              console.log('dashboard  onShow结束后全局 corpid:' + app.globalData.corpid);
+              LOG.info('dashboard onShow结束后全局 corpid:' + app.globalData.corpid)  
+            }, err => {
+              console.log('err:')
+              console.log(err)
+            })
+          }
+        }, err => {
+          console.log('err:')
+          console.log(err)
+        })
+      }
+    })
   },
-  // 我的资料
-  info() {
-  },
+
+  
+ 
   // 上报或查看
   report(val) {
     console.log(val)
+    // 订阅消息
+    let str = 'dw1Qiu9VFt4um7iDOJbwG5czU7D3MeuWQGVkyJe1uQw'  //模板id
+    wx.requestSubscribeMessage({
+      tmplIds: [str], // 此处可填写多个模板 ID，但低版本微信不兼容只能授权一个
+      success(res) {
+        console.log(res[str])
+      }
+    })
     if (app.globalData.is_registered == 0) {
-      common.NAVIGATE('../dashboard/dashboard'+ app.globalData.corpid)
-      // wx.navigateTo({
-      //   url: "../info/info?corpid=" + app.globalData.corpid
-      // })
-    } else {
+      common.NAVIGATE('../info/info?corpid=' + app.globalData.corpid)
+    } else if (app.globalData.template_code == "default"){
       common.NAVIGATE("../report/report")
-      // wx.navigateTo({
-      //   url: "../report/report"
-      // })
+    }else if (app.globalData.template_code == "company") {
+      common.NAVIGATE("../report/report")
+    }else if (app.globalData.template_code == "dalidali") {
+      common.NAVIGATE("../webview/webview?text=" + "https://miniprograme.psy-cloud.org/index/template/dalidali/uid/" + app.globalData.uid + "/token/" + app.globalData.token)
+    } else if (app.globalData.template_code == "other01") {
+      common.NAVIGATE("../webview/webview?text=" + "https://miniprograme.psy-cloud.org/index/template/other01/uid/" + app.globalData.uid + "/token/" + app.globalData.token)
+    } else if(app.globalData.template_code == "other02") {
+      common.NAVIGATE("../webview/webview?text=" + "https://miniprograme.psy-cloud.org/index/template/other02/uid/" + app.globalData.uid + "/token/" + app.globalData.token)
+    } else if (app.globalData.template_code == "other03") {
+      common.NAVIGATE("../webview/webview?text=" + "https://miniprograme.psy-cloud.org/index/template/other03/uid/" + app.globalData.uid + "/token/" + app.globalData.token)
+    } else if (app.globalData.template_code == "other04") {
+      common.NAVIGATE("../webview/webview?text=" + "https://miniprograme.psy-cloud.org/index/template/other04/uid/" + app.globalData.uid + "/token/" + app.globalData.token)
+    } else{
+      common.SHOWTIPS('无有效的模板', 'none')
     }
-
   },
 })

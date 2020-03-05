@@ -1,15 +1,19 @@
 {
   "pages": [
     "pages/dashboard/dashboard",
+    "pages/webview/webview",
     "pages/info/info",
     "pages/report/report",
     "pages/error/error",
-    "pages/mine/mine"
+    "pages/succeed/succeed",
+    "pages/music/music",
+    "pages/mine/mine",
+    "pages/selfhelp/selfhelp"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#13beec",
-    "navigationBarTitleText": "疫情防控系统v1.6",
+    "navigationBarTitleText": "疫情防控系统v1.8.1",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
@@ -22,7 +26,18 @@
         "iconPath": "images/report.png",
         "selectedIconPath": "images/selectedReport.png"
       },
-      
+      {
+        "pagePath": "pages/music/music",
+        "text": "放松减压",
+        "iconPath": "images/music.png",
+        "selectedIconPath": "images/selectedMusic.png"
+      },
+      {
+        "pagePath": "pages/selfhelp/selfhelp",
+        "text": "自助测评",
+        "iconPath": "images/selfhelp.png",
+        "selectedIconPath": "images/selectedSelfhelp.png"
+      },
       {
         "pagePath": "pages/mine/mine",
         "text": "我 的",
@@ -30,6 +45,11 @@
         "selectedIconPath": "images/selectedMine.png"
       }
     ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "位置信息将用于上报表单中地址位置信息的获取"
+    }
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

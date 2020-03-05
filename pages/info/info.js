@@ -3,15 +3,10 @@ import common from '../../utils/common.js'
 const app = getApp()
 
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
-    genderText: '请选择性别',
-    degreeText: '请选择攻读学位',
-    classText: '请选择所属年级',
-    treeText: '请选择组织机构',
     disabled: false,
     sureBtn: false,
     formIsShow: true,
@@ -23,49 +18,13 @@ Page({
       userid: e.detail.value
     })
   },
-  // 性别
-  genderChange(e) {
-    let that = this;
-    console.log('picker发送选择改变，携带值为', e.detail.value)
-    that.setData({
-      index: e.detail.value,
-      genderText: '',
-    })
-  },
-  // 学位
-  degreeChange(e) {
-    this.setData({
-      degree: e.detail.value,
-      degreeText: ''
-    })
-  },
-  // 年级
-  classChange(e) {
-    this.setData({
-      class: e.detail.value,
-      classText: ''
-    })
-  },
-  // 组织机构
-  treeChange(e) {
-    this.setData({
-      tree: e.detail.value,
-      treeText: ''
-    })
-  },
-  // 组织机构
-  getDepartmentId(e) {
-    let data = e.detail;
-    this.setData({
-      department_id: data.industryTwoId
-    });
-    console.log(this.data.department_id);
-  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
     // this.getData()
+  },
+  onShow: function() {
     var that = this;
     // 获取用户身份
     var data = {
@@ -81,15 +40,12 @@ Page({
           type_corpname: res.data.type_corpname,
           type_username: res.data.type_username,
         })
-      }else{
-        wx.navigateTo({
-          url: "../error/error?text=" + res.data.msg
-        })
+      } else {
+        common.NAVIGATE("../error/error?text=" + res.data.msg)
       }
     }, err => {
       console.log(err)
     })
-
   },
   // 提交企业标识和职工号
   sure() {
@@ -97,7 +53,7 @@ Page({
     if (that.data.userid == '' || that.data.userid == undefined) {
       common.SHOWTIPS('请输入' + that.data.type_username, 'none')
       return;
-    } else{
+    } else {
       var data = {
         uid: app.globalData.uid,
         token: app.globalData.token,
@@ -117,46 +73,15 @@ Page({
             search: true
           })
           console.log(that.data.is_exist)
-        }else{
-          wx.navigateTo({
-            url: "../error/error?text=" + res.data.msg
-          })
+        } else {
+          common.NAVIGATE("../error/error?text=" + res.data.msg)
         }
       }, err => {
         console.log(err)
       })
     }
   },
-  // getData() {
-  //   let that = this;
-  //   // 性别
-  //   request._get('http://epidemic-report.psy-cloud.com/student/api/system/dic/gender/get', '', res => {
-  //     that.setData({
-  //       genderOptions: res.data.data.gender_data
-  //     });
-  //   })
-  //   // 学位
-  //   request._get('http://epidemic-report.psy-cloud.com/student/api/system/dic/degree/get', '', res => {
-  //     // console.log(res.data.data.degree_data)
-  //     that.setData({
-  //       IDoptions: res.data.data.degree_data
-  //     });
-  //   })
-  //   // 年级
-  //   request._get('http://epidemic-report.psy-cloud.com/student/api/system/dic/grade/get', '', res => {
-  //     // console.log(res.data.data.grade_data)
-  //     that.setData({
-  //       classOptions: res.data.data.grade_data
-  //     });
-  //   })
-  // 组织机构
-  //   request._get('api/system/department/tree/getall', '', res => {
-  //     //组织机构
-  //     that.setData({
-  //       treeList: res.data.data.tree_data
-  //     })
-  //   });
-  // },
+
   formSubmit: function(e) {
     let that = this;
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
@@ -185,9 +110,7 @@ Page({
           }, 5000)
 
         } else {
-          wx.navigateTo({
-            url: "../error/error?text=" + res.data.msg
-          })
+          common.NAVIGATE("../error/error?text=" + res.data.msg)
         }
       }, err => {
         console.log(err)
@@ -210,10 +133,7 @@ Page({
         userid: that.data.userid,
         name: list.name.trim(),
         phone_num: list.phone_num.trim(),
-        // gender_value: that.data.genderOptions[list.gender_value].value,
-        // degree_value: that.data.IDoptions[list.degree_value].value,
-        // grade_value: that.data.classOptions[list.grade_value].value,
-        // department_id: that.data.treeList[list.department_id].id
+
       }
       request._post('/login/register', data, res => {
         // console.log(res.data.is_registered)
@@ -225,79 +145,12 @@ Page({
             common.SWITCHTAB('../dashboard/dashboard')
           }, 1000)
         } else {
-          wx.navigateTo({
-            url: "../error/error?text=" + res.data.msg
-          })
+          common.NAVIGATE("../error/error?text=" + res.data.msg)
         }
       }, err => {
         console.log(err)
       })
     }
-    // else if (list.gender_value == '' || list.gender_value == null) {
-    //   common.SHOWTIPS('请选择性别', 'none')
-    //   return;
-    // }
-    // else if (list.degree_value == '' || list.degree_value == null) {
-    //   common.SHOWTIPS('请选择攻读学位', 'none')
-    //   return;
-    // } else if (list.grade_value == '' || list.grade_value == null) {
-    //   common.SHOWTIPS('请选择所属年级', 'none')
-    //   return;
-    // } else if (list.department_id == '' || list.department_id == null) {
-    //   common.SHOWTIPS('请选择组织机构', 'none')
-    //   return;
-    // }
-    // else {
-
-
-    // }
-  },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {
 
   }
 })
