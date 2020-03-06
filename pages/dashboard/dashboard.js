@@ -5,13 +5,17 @@ const app = getApp()
 const LOG = require('../../utils/log.js')
 const AUTH = require('../../utils/auth.js')
 const TOOLS = require('../../utils/tools.js')
+const CONFIG = require('../../utils/config.js')
+const baseURL = CONFIG.baseURL
+const tmplIds = CONFIG.tmplIds
+const df_corpcode = CONFIG.df_corpcode
 
 Page({
   data: {
     userInfo: '',
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    bg: '../../images/bg.png',
+    bg: '../../images/bg.jpg',
     repotrBg: '../../images/report-bg.png',
     buttonText: '开始今日上报',
     corpid: '',
@@ -20,7 +24,7 @@ Page({
     LOG.info('dashboard onLoad')
     console.log('dashboard onLoad'); 
     var that = this;
-    let corpid = "100000001";
+    let corpid = df_corpcode;
     if (options.scene) {
       corpid = decodeURIComponent(options.scene);
       wx.setStorage({
@@ -31,10 +35,10 @@ Page({
       try {
         corpid = wx.getStorageSync('corpid');
         if (corpid == '') {
-          corpid = "100000001";
+          corpid = df_corpcode;
         }
       } catch (e) {
-        corpid = "100000001";
+        corpid = df_corpcode;
       }
     }
     console.log('dashboard onLoad corpid:'+ corpid);
@@ -119,13 +123,12 @@ Page({
     })
   },
 
-  
  
   // 上报或查看
   report(val) {
     console.log(val)
     // 订阅消息
-    let str = 'dw1Qiu9VFt4um7iDOJbwG5czU7D3MeuWQGVkyJe1uQw'  //模板id
+    let str = tmplIds  //模板id
     wx.requestSubscribeMessage({
       tmplIds: [str], // 此处可填写多个模板 ID，但低版本微信不兼容只能授权一个
       success(res) {
@@ -138,16 +141,14 @@ Page({
       common.NAVIGATE("../report/report")
     }else if (app.globalData.template_code == "company") {
       common.NAVIGATE("../report/report")
-    }else if (app.globalData.template_code == "dalidali") {
-      common.NAVIGATE("../webview/webview?text=" + "https://miniprograme.psy-cloud.org/index/template/dalidali/uid/" + app.globalData.uid + "/token/" + app.globalData.token)
-    } else if (app.globalData.template_code == "other01") {
-      common.NAVIGATE("../webview/webview?text=" + "https://miniprograme.psy-cloud.org/index/template/other01/uid/" + app.globalData.uid + "/token/" + app.globalData.token)
+    }else if (app.globalData.template_code == "other01") {
+      common.NAVIGATE("../webview/webview?text=" + baseURL +"template/other01/uid/" + app.globalData.uid + "/token/" + app.globalData.token)
     } else if(app.globalData.template_code == "other02") {
-      common.NAVIGATE("../webview/webview?text=" + "https://miniprograme.psy-cloud.org/index/template/other02/uid/" + app.globalData.uid + "/token/" + app.globalData.token)
+      common.NAVIGATE("../webview/webview?text=" + baseURL +"/template/other02/uid/" + app.globalData.uid + "/token/" + app.globalData.token)
     } else if (app.globalData.template_code == "other03") {
-      common.NAVIGATE("../webview/webview?text=" + "https://miniprograme.psy-cloud.org/index/template/other03/uid/" + app.globalData.uid + "/token/" + app.globalData.token)
+      common.NAVIGATE("../webview/webview?text=" + baseURL +"/template/other03/uid/" + app.globalData.uid + "/token/" + app.globalData.token)
     } else if (app.globalData.template_code == "other04") {
-      common.NAVIGATE("../webview/webview?text=" + "https://miniprograme.psy-cloud.org/index/template/other04/uid/" + app.globalData.uid + "/token/" + app.globalData.token)
+      common.NAVIGATE("../webview/webview?text=" + baseURL +"/template/other04/uid/" + app.globalData.uid + "/token/" + app.globalData.token)
     } else{
       common.SHOWTIPS('无有效的模板', 'none')
     }

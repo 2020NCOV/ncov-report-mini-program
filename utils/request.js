@@ -1,4 +1,6 @@
-const baseURL = 'https://miniprograme.psy-cloud.org/index';
+const CONFIG = require('config.js')
+const baseURL = CONFIG.baseURL
+
 const http = (method, url, data, response, error) => {
 
   wx.showLoading({

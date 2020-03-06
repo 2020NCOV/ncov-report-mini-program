@@ -232,11 +232,7 @@ Page({
         that.setData({
           template_code: res.data.template_code //用户模板
         })
-        // if (that.data.template_code == "dalidali") { //西京大学模板外接地址
-        //   wx.redirectTo({
-        //     url: "../webview/webview?text=" + "https://miniprograme.psy-cloud.org/index/template/dalidali/uid/" + app.globalData.uid + "/token/" + app.globalData.token
-        //   })
-        // } else {
+        
         var info = {
           uid: app.globalData.uid,
           token: app.globalData.token,
@@ -244,19 +240,7 @@ Page({
         }
         request._post('/info/getmyinfo', info, res => {
           console.log(res)
-          // if (res.data.errcode == 1099) {
-          //   app.globalData.corpid = res.data.corp_code;
-          //   console.log('上报页面的corpid' + app.globalData.corpid)
-          //   wx.showModal({
-          //     title: '',
-          //     content: res.data.msg,
-          //     success(res) {
-          //       if (res.confirm) {
-          //         common.SWITCHTAB('../mine/mine')
-          //       }
-          //     }
-          //   });
-          // }
+        
           if (res.data.errcode == 0) {
             that.setData({
               name: res.data.name,
