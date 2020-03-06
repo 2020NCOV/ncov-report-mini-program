@@ -45,12 +45,10 @@ button {
   background: #fff;
   border: 1rpx solid #dcdfe6;
   font-weight: normal !important;
-  /* width: auto !important; */
 }
 
 .place-holder {
   color: #ddd;
-  /* font-size: 14rpx; */
 }
 
 .required {

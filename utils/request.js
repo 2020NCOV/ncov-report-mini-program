@@ -1,10 +1,7 @@
-//var hasClick = false;
-const baseURL = 'https://ncov-oss.mysspku.com/index';
+const CONFIG = require('config.js')
+const baseURL = CONFIG.baseURL
+
 const http = (method, url, data, response, error) => {
-  // if (hasClick) {
-  //   return
-  // }
-  // hasClick = true
 
   wx.showLoading({
     title: '加载中...',
@@ -16,18 +13,13 @@ const http = (method, url, data, response, error) => {
     url: baseURL + url,
     header: {
       'content-type': 'application/x-www-form-urlencoded',
-      // 'token': wx.getStorageSync("token")
     },
     data: data,
     success: res => {
       return response(res)
     },
-    // fail: err => {
-    //   return error(err)
-    // },
     complete: info => {
       wx.hideLoading();
-      // hasClick = false
     }
   })
 }

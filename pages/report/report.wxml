@@ -19,7 +19,7 @@
     </view>
     </view>
   <!--default显示学生字段-->
-  <block wx:if="{{template_code=='school_df'}}">
+  <block wx:if="{{template_code=='default'}}">
     <view>各位同学：</view>
     <view class="hint">
       目前全国多地区发现新型冠状病毒感染病例，国家卫健委将其纳入乙类传染病并按甲类防控。为避免病毒在校内传播，请
@@ -31,7 +31,7 @@
     <view class="hint">目前全国多地区发现新型冠状病毒感染病例，国家卫健委将其纳入乙类传染病并按甲类防控。为避免病毒传播，请
       <text>每天</text>如实填写以下信息，并及时与您的部门主管联系。祝各位同事及家人身体健康！</view>
   </block>
-  <view wx:if="{{time}}" style="margin-top:20rpx;">最新上报时间：{{time}}</view>
+  <view wx:if="{{time}}" style="margin:20rpx 0;">最新上报时间：{{time}}</view>
   <form bindsubmit="formSubmit" bindreset="formReset" class="form">
     <view class="section">
       <view class="section_title">
@@ -39,7 +39,7 @@
       <input type="text" maxlength="4" placeholder="请填写体温" name="current_temperature" placeholder-class="place-holder"></input>
     </view>
     <!--default显示学生字段-->
-    <block wx:if="{{template_code=='school_df'}}">
+    <block wx:if="{{template_code=='default'}}">
       <view class="section" style="margin-top:20px;">
         <view class="section_title">
           <text class="required">*</text>目前是否已返校：</view>

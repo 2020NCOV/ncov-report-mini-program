@@ -1,15 +1,16 @@
 {
   "pages": [
     "pages/dashboard/dashboard",
-    "pages/info/info",
+    "pages/webview/webview",
     "pages/report/report",
     "pages/error/error",
+    "pages/succeed/succeed",
     "pages/mine/mine"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#13beec",
-    "navigationBarTitleText": "疫情防控系统v1.6",
+    "navigationBarTitleText": "疫情防控系统v1.8.1",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
@@ -22,7 +23,6 @@
         "iconPath": "images/report.png",
         "selectedIconPath": "images/selectedReport.png"
       },
-      
       {
         "pagePath": "pages/mine/mine",
         "text": "我 的",
@@ -30,6 +30,11 @@
         "selectedIconPath": "images/selectedMine.png"
       }
     ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "位置信息将用于上报表单中地址位置信息的获取"
+    }
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"
