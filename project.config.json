@@ -26,6 +26,7 @@
 	"libVersion": "2.10.1",
 	"appid": "wxa4edf44e5a9c2746",
 	"projectname": "AI NCOV2020",
+
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
