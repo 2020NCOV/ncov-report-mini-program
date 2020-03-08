@@ -19,7 +19,7 @@ applicaiton/config.php文件
 ```
     //修改以下内容为实际数据
     'wechat_appid'    => '小程序ID',
-    'wechat_secret'		=> '秘钥',
+    'wechat_secret'   => '秘钥',
 ```
 
 applicaiton/database.php文件
